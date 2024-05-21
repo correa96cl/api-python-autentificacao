@@ -52,6 +52,18 @@ def create_user():
 
     return jsonify({"message": "Dados Invalidos"}), 401
 
+@app.route("/users", methods=['GET'])
+def get_users():
+    user_list = User.query.all()
+
+    user_list = [task.to_dict() for task in user_list]
+    print(user_list)
+
+    output = {
+        "users": user_list,
+        "total_tasks": len(user_list)
+    }
+    return jsonify(output)
 
 @app.route('/user/<int:id_user>', methods=['GET'])
 @login_required
@@ -74,6 +86,7 @@ def update_user(id_user):
         return jsonify({"message": f"Usuario {user.username} atualizado com sucesso!"})
     return jsonify({"message": "Usuario nao encontrado"}), 404
 
+#fazer um metodo pa
 @app.route('/user/<int:id_user>', methods=['DELETE'])
 @login_required
 def delete_user(id_user):
@@ -89,6 +102,7 @@ def delete_user(id_user):
     
     return jsonify({"message": "Usuario nao encontrado"}), 404
 
+#fazer 
 
 if __name__ == '__main__':
     app.run(debug=True)
